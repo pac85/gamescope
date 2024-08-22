@@ -7763,7 +7763,8 @@ steamcompmgr_main(int argc, char **argv)
 			}
 		}
 
-		if ( bDirtyFocuses )
+		// XXX: Need to look into why this doesn't work.
+		//	if ( bDirtyFocuses )
 		{
 			// TODO(misyl): Improve this situation, it's kind of a mess.
 			// We could/should make this event driven rather than solving

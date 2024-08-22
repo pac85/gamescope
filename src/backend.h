@@ -66,7 +66,7 @@ namespace gamescope
         return VirtualConnectorInSteamPerAppState() && ulKey == 769;
     }
 
-    static std::string_view VirtualConnectorStrategyToString( VirtualConnectorStrategy eStrategy )
+    static inline std::string_view VirtualConnectorStrategyToString( VirtualConnectorStrategy eStrategy )
     {
         switch ( eStrategy )
         {
