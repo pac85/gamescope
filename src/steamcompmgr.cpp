@@ -7672,7 +7672,7 @@ steamcompmgr_main(int argc, char **argv)
 		}
 
 		bool bDirtyFocuses = false;
-		for ( auto &iter : g_VirtuaConnectorFocuses )
+		for ( auto &iter : g_VirtualConnectorFocuses )
 		{
 			global_focus_t *pFocus = &iter.second;
 			if ( pFocus->IsDirty() )
