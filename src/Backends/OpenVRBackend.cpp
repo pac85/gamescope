@@ -1521,6 +1521,7 @@ namespace gamescope
         if ( !m_bIsSubview )
         {
             m_sDashboardOverlayKey = sOverlayKey;
+            openvr_log.debugf( "Creating new dashboard overlay: %s", m_sDashboardOverlayKey.c_str() );
 
             vr::VROverlay()->CreateDashboardOverlay(
                 sOverlayKey.c_str(),
