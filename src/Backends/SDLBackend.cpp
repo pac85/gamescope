@@ -54,7 +54,7 @@ namespace gamescope
 		GAMESCOPE_SDL_EVENT_COUNT,
 	};
 
-	class CSDLConnector final : public CBaseBackendConnector
+	class CSDLConnector final : public CBaseBackendConnector, public INestedHints
 	{
 	public:
 		CSDLConnector();
@@ -97,7 +97,22 @@ namespace gamescope
 			return "Virtual Display";
 		}
 
+        virtual INestedHints *GetNestedHints() override
+        {
+            return this;
+        }
+
 		virtual int Present( const FrameInfo_t *pFrameInfo, bool bAsync ) override;
+
+		///////////////////
+		// INestedHints
+		///////////////////
+
+        virtual void SetCursorImage( std::shared_ptr<INestedHints::CursorInfo> info ) override;
+        virtual void SetRelativeMouseMode( bool bRelative ) override;
+        virtual void SetVisible( bool bVisible ) override;
+        virtual void SetTitle( std::shared_ptr<std::string> szTitle ) override;
+        virtual void SetIcon( std::shared_ptr<std::vector<uint32_t>> uIconPixels ) override;
 
 		//--
 
@@ -109,7 +124,7 @@ namespace gamescope
 		BackendConnectorHDRInfo m_HDRInfo{};
 	};
 
-	class CSDLBackend : public CBaseBackend, public INestedHints
+	class CSDLBackend : public CBaseBackend
 	{
 	public:
 		CSDLBackend();
@@ -150,15 +165,15 @@ namespace gamescope
 
 		virtual glm::uvec2 CursorSurfaceSize( glm::uvec2 uvecSize ) const override;
 
-		///////////////////
-		// INestedHints
-		///////////////////
+		////////////////////////
+		// INestedHints Compat
+		///////////////////////
 
-        virtual void SetCursorImage( std::shared_ptr<INestedHints::CursorInfo> info ) override;
-        virtual void SetRelativeMouseMode( bool bRelative ) override;
-        virtual void SetVisible( bool bVisible ) override;
-        virtual void SetTitle( std::shared_ptr<std::string> szTitle ) override;
-        virtual void SetIcon( std::shared_ptr<std::vector<uint32_t>> uIconPixels ) override;
+        void SetCursorImage( std::shared_ptr<INestedHints::CursorInfo> info );
+        void SetRelativeMouseMode( bool bRelative );
+        void SetVisible( bool bVisible );
+        void SetTitle( std::shared_ptr<std::string> szTitle );
+        void SetIcon( std::shared_ptr<std::vector<uint32_t>> uIconPixels );
 	protected:
 		virtual void OnBackendBlobDestroyed( BackendBlob *pBlob ) override;
 	private:
@@ -334,6 +349,32 @@ namespace gamescope
 		GetVBlankTimer().UpdateLastDrawTime( get_time_in_nanos() - g_SteamCompMgrVBlankTime.ulWakeupTime );
 
 		return 0;
+	}
+
+	void CSDLConnector::SetCursorImage( std::shared_ptr<INestedHints::CursorInfo> info )
+	{
+		CSDLBackend *pBackend = static_cast<CSDLBackend *>( GetBackend() );
+		pBackend->SetCursorImage( std::move( info ) );
+	}
+	void CSDLConnector::SetRelativeMouseMode( bool bRelative )
+	{
+		CSDLBackend *pBackend = static_cast<CSDLBackend *>( GetBackend() );
+		pBackend->SetRelativeMouseMode( bRelative );
+	}
+	void CSDLConnector::SetVisible( bool bVisible )
+	{
+		CSDLBackend *pBackend = static_cast<CSDLBackend *>( GetBackend() );
+		pBackend->SetVisible( bVisible );
+	}
+	void CSDLConnector::SetTitle( std::shared_ptr<std::string> szTitle )
+	{
+		CSDLBackend *pBackend = static_cast<CSDLBackend *>( GetBackend() );
+		pBackend->SetTitle( std::move( szTitle ) );
+	}
+	void CSDLConnector::SetIcon( std::shared_ptr<std::vector<uint32_t>> uIconPixels )
+	{
+		CSDLBackend *pBackend = static_cast<CSDLBackend *>( GetBackend() );
+		pBackend->SetIcon( std::move( uIconPixels ) );
 	}
 
 	////////////////
