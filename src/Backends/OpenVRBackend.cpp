@@ -1140,7 +1140,9 @@ namespace gamescope
                     {
                         bool bUsingPhysicalMouse = GetCurrentConnector() == pConnector && !pConnector->m_bUsingVRMouse;
 
-                        if ( bUsingPhysicalMouse )
+                        bool bShowCursor = !m_bRelativeMouse;
+
+                        if ( bUsingPhysicalMouse && bShowCursor )
                         {
                             vr::HmdVector2_t vMousePos =
                             {
