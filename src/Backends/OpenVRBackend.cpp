@@ -433,7 +433,7 @@ namespace gamescope
                         } else if (strcmp(opt_name, "vr-overlay-explicit-name") == 0) {
                             m_pchOverlayName = optarg;
                             m_bExplicitOverlayName = true;
-                        } else if (strcmp(opt_name, "vr-overlay-default-name") == 0) {c
+                        } else if (strcmp(opt_name, "vr-overlay-default-name") == 0) {
                             m_pchOverlayName = optarg;
                         } else if (strcmp(opt_name, "vr-overlay-icon") == 0) {
                             m_pchOverlayIcon = optarg;
